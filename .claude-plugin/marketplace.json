@@ -1,0 +1,15 @@
+{
+  "name": "b2b-ui-designer",
+  "description": "B2B UI Designer: a Claude skill and MCP server for B2B websites and product UI, with a page checker that flags accessibility, modern-web and AI-slop problems.",
+  "owner": {
+    "name": "Puvan Kumar V",
+    "url": "https://github.com/puvankumarv"
+  },
+  "plugins": [
+    {
+      "name": "b2b-ui-designer",
+      "source": "./",
+      "description": "Designs B2B websites and product UI without AI slop, and checks every page for accessibility, modern web practice and conversion."
+    }
+  ]
+}

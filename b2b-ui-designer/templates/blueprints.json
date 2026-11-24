@@ -1,0 +1,155 @@
+{
+  "_about": "Page blueprints used by scripts/blueprint.py and the MCP tool page_blueprint. Each section: id (the data-section value), required (true | false | 'enterprise' | 'software' | 'if-logos'), component (default choice), alternatives, evidence. 'motions' lists sections added, removed or changed per sales motion. Rationale lives in references/pages/*.md.",
+  "pages": {
+    "homepage": {
+      "module": "references/pages/homepage.md",
+      "sections": [
+        {"id": "announcement", "required": false, "component": "Pill above the headline linking to a launch, report or event", "evidence": "13/29 archive"},
+        {"id": "nav", "required": true, "component": "nav/inline, sticky, 56-72px", "alternatives": ["nav/mega when 3+ products or segments"], "evidence": "mega on HubSpot, Salesforce, Flexport"},
+        {"id": "hero", "required": true, "component": "Centred stack with real product UI below", "alternatives": ["Split: text left, visual right (fintech, text-heavy)", "Split with a working widget", "Type-only for strong brands", "Split with operations photography (services)"], "evidence": "29/29; real UI visual on 17/29"},
+        {"id": "logos", "required": "if-logos", "component": "logo-cloud/strip (<= 8 logos)", "alternatives": ["logo-cloud/marquee (> 8, with pause)"], "evidence": "~20/29 archive, 4/8 live"},
+        {"id": "positioning", "required": false, "component": "One large centred sentence naming the problem or category", "evidence": "Linear, Ramp, HubSpot, Salesforce"},
+        {"id": "features", "required": true, "component": "features/alternating with real UI crops", "alternatives": ["features/bento (4-6 features)", "Product-suite grid (several products)", "Workflow narrative", "features/workbench"], "evidence": "6/8 live have a suite grid"},
+        {"id": "how-it-works", "required": false, "component": "features/numbered-triplet", "evidence": "self-serve and services"},
+        {"id": "proof", "required": true, "component": "Case-study cards with the metric as the headline", "alternatives": ["stat/row with sources", "testimonial/pull-quote", "testimonial/mosaic"], "evidence": "8/8 live"},
+        {"id": "integrations", "required": "software", "component": "Logo grid with the real integration count", "evidence": "HubSpot, Stripe, Ramp"},
+        {"id": "security", "required": "enterprise", "component": "Certification badge row + link to the trust page", "evidence": "fintech and enterprise sites"},
+        {"id": "awards", "required": false, "component": "Analyst / review-site badge row", "evidence": "HubSpot, Salesforce, Datadog"},
+        {"id": "faq", "required": false, "component": "faq/accordion, 5-8 questions", "evidence": "Ramp, Salesforce"},
+        {"id": "cta-band", "required": true, "component": "cta/two-button restating the hero promise", "alternatives": ["cta/banded (one per page)", "cta/inverted"], "evidence": "5/8 live"},
+        {"id": "footer", "required": true, "component": "Compact footer", "alternatives": ["footer/sitemap for multi-product companies"], "evidence": "4/8 live mega footers"}
+      ],
+      "motions": {
+        "self-serve": {"note": "Show a pricing preview or 'Free to start' near the hero; email-field CTA allowed.", "add_after": {"proof": [{"id": "pricing-preview", "required": false, "component": "pricing/three-card summary linking to /pricing", "evidence": "self-serve sites"}]}},
+        "sales-led": {"note": "No prices on the homepage; repeat 'Get a demo' 3-6 times; security section required.", "require": ["security"]},
+        "hybrid": {"note": "Primary 'Get started', ghost 'Get a demo' in the hero and the CTA band."},
+        "service": {"note": "Hero uses real operations photography; add how-it-works and industries; phone in the header.", "require": ["how-it-works"], "add_after": {"proof": [{"id": "industries", "required": true, "component": "Grid of sectors served", "evidence": "Flexport (thin evidence)"}]}}
+      }
+    },
+    "pricing": {
+      "module": "references/pages/pricing.md",
+      "sections": [
+        {"id": "nav", "required": true, "component": "Same nav as the homepage"},
+        {"id": "hero", "required": true, "component": "Headline + what the price depends on"},
+        {"id": "plan-controls", "required": false, "component": "pricing/toggle (monthly / annual, savings %)", "alternatives": ["Usage selector (seats, volume)"], "evidence": "Amie, Anytype, Beehiiv, Descript"},
+        {"id": "plans", "required": true, "component": "pricing/three-card, recommended plan raised", "alternatives": ["pricing/per-use", "pricing/single-plan", "pricing/enterprise", "pricing/tier-bento"], "evidence": "4/4 archive pricing pages"},
+        {"id": "logos", "required": "if-logos", "component": "logo-cloud/strip or one short quote"},
+        {"id": "compare", "required": true, "component": "pricing/table with sticky plan header and grouped rows", "evidence": "Netlify, Linear"},
+        {"id": "faq", "required": true, "component": "faq/accordion: billing, seats, trials, cancellation, security, invoices"},
+        {"id": "cta-band", "required": true, "component": "cta/two-button: primary + Talk to sales"},
+        {"id": "footer", "required": true, "component": "Same footer as the homepage"}
+      ],
+      "motions": {
+        "sales-led": {"note": "Use pricing/enterprise or packages with 'Contact sales'; still state what the price depends on.", "remove": ["plan-controls"]}
+      }
+    },
+    "product-feature": {
+      "module": "references/pages/product-feature.md",
+      "sections": [
+        {"id": "nav", "required": true, "component": "Same nav as the homepage"},
+        {"id": "hero", "required": true, "component": "Feature promise + UI for this feature"},
+        {"id": "problem", "required": true, "component": "Today's way and its cost, short"},
+        {"id": "features", "required": true, "component": "features/alternating, 3-4 capability blocks", "alternatives": ["Workflow narrative", "features/workbench", "features/compare"]},
+        {"id": "demo", "required": false, "component": "Muted looping video <= 15s with pause, or step-through screenshots"},
+        {"id": "proof", "required": true, "component": "One case study or quote about this feature"},
+        {"id": "integrations", "required": false, "component": "Tools this feature connects to"},
+        {"id": "related", "required": false, "component": "2-3 neighbouring features"},
+        {"id": "cta-band", "required": true, "component": "cta/two-button"},
+        {"id": "footer", "required": true, "component": "Same footer as the homepage"}
+      ]
+    },
+    "solution": {
+      "module": "references/pages/solution.md",
+      "sections": [
+        {"id": "nav", "required": true, "component": "Same nav as the homepage"},
+        {"id": "hero", "required": true, "component": "[Product] for [audience] + outcome + UI configured for them"},
+        {"id": "pains", "required": true, "component": "3 pains in the audience's words"},
+        {"id": "features", "required": true, "component": "One block per pain, same order"},
+        {"id": "proof", "required": true, "component": "Case study from the same industry or role; filtered logo strip"},
+        {"id": "security", "required": "enterprise", "component": "Regulations that matter to this industry"},
+        {"id": "cta-band", "required": true, "component": "Talk to a [industry] specialist"},
+        {"id": "footer", "required": true, "component": "Same footer as the homepage"}
+      ]
+    },
+    "security-trust": {
+      "module": "references/pages/security-trust.md",
+      "sections": [
+        {"id": "nav", "required": true, "component": "Same nav as the homepage"},
+        {"id": "hero", "required": true, "component": "Plain statement + certification badges (real only)"},
+        {"id": "compliance", "required": true, "component": "One card per certification with scope and date"},
+        {"id": "data-protection", "required": true, "component": "Encryption, residency, retention, deletion"},
+        {"id": "infrastructure", "required": true, "component": "Hosting, regions, availability, backups"},
+        {"id": "access", "required": true, "component": "SSO/SAML, SCIM, roles, audit logs, 2FA"},
+        {"id": "privacy", "required": true, "component": "Subprocessors, DPA, privacy policy"},
+        {"id": "documents", "required": true, "component": "Request SOC 2 report, pen-test summary, questionnaires"},
+        {"id": "contact", "required": true, "component": "Security email, responsible disclosure, status page"},
+        {"id": "footer", "required": true, "component": "Same footer as the homepage"}
+      ]
+    },
+    "demo-request": {
+      "module": "references/pages/demo-request.md",
+      "sections": [
+        {"id": "nav", "required": true, "component": "Minimal nav (logo + sign in)"},
+        {"id": "hero", "required": true, "component": "Split: what the call covers + logos + one quote | form card (4-5 fields)"},
+        {"id": "faq", "required": false, "component": "3 questions: length, who should attend, pricing"},
+        {"id": "footer", "required": true, "component": "Compact footer"}
+      ]
+    },
+    "industrial": {
+      "module": "references/pages/industrial.md",
+      "thin_evidence": true,
+      "sections": [
+        {"id": "nav", "required": true, "component": "Inline nav with phone number; mega menu for catalogue-first"},
+        {"id": "hero", "required": true, "component": "Split with real operations photography; Request a quote + Talk to an expert"},
+        {"id": "logos", "required": "if-logos", "component": "Customers or certifications (ISO 9001, industry bodies)"},
+        {"id": "services", "required": true, "component": "One card per service line", "evidence": "Flexport"},
+        {"id": "proof", "required": true, "component": "Industry numbers with sources (on-time %, capacity, sites)"},
+        {"id": "how-it-works", "required": true, "component": "Enquiry to delivery in 3-5 steps"},
+        {"id": "industries", "required": false, "component": "Sectors served"},
+        {"id": "insights", "required": false, "component": "Market updates, rate reports, regulations", "evidence": "Flexport"},
+        {"id": "cta-band", "required": true, "component": "Request a quote"},
+        {"id": "footer", "required": true, "component": "Locations, phone, certifications"}
+      ]
+    },
+    "app-dashboard": {
+      "module": "references/pages/app-screens.md",
+      "sections": [
+        {"id": "app-shell", "required": true, "component": "Collapsible sidebar + top bar (search, notifications, account)"},
+        {"id": "page-header", "required": true, "component": "Title + date range and filters top right"},
+        {"id": "kpis", "required": true, "component": "3-5 KPI cards: label, value, change (arrow + % + text), sparkline"},
+        {"id": "main-chart", "required": true, "component": "One full-width chart whose title states the insight"},
+        {"id": "supporting-charts", "required": false, "component": "2-column charts"},
+        {"id": "detail-table", "required": false, "component": "Data table with density toggle, filters, bulk actions"}
+      ]
+    },
+    "app-table": {
+      "module": "references/pages/app-screens.md",
+      "sections": [
+        {"id": "app-shell", "required": true, "component": "Collapsible sidebar + top bar"},
+        {"id": "page-header", "required": true, "component": "Title + primary action"},
+        {"id": "toolbar", "required": true, "component": "Search, filters, column settings, export; bulk action bar on selection"},
+        {"id": "filter-chips", "required": false, "component": "Active filters as removable chips + Clear all"},
+        {"id": "table", "required": true, "component": "Sticky header, right-aligned numbers, aria-sort, skeleton / empty / error states"},
+        {"id": "pagination", "required": true, "component": "Total count, page size, pages or load more"}
+      ]
+    },
+    "app-settings": {
+      "module": "references/pages/app-screens.md",
+      "sections": [
+        {"id": "app-shell", "required": true, "component": "Collapsible sidebar + top bar"},
+        {"id": "settings-nav", "required": true, "component": "Left list of settings sections"},
+        {"id": "form-cards", "required": true, "component": "Grouped form cards with heading and description"},
+        {"id": "save-bar", "required": true, "component": "Sticky save bar when dirty, or autosave with status"},
+        {"id": "danger-zone", "required": false, "component": "Separate card; confirm by typing the name"}
+      ]
+    },
+    "app-onboarding": {
+      "module": "references/pages/app-screens.md",
+      "sections": [
+        {"id": "progress", "required": true, "component": "Step X of N"},
+        {"id": "task", "required": true, "component": "One task per screen with skip"},
+        {"id": "finish", "required": true, "component": "Land on real or sample data, never an empty dashboard"}
+      ]
+    }
+  }
+}

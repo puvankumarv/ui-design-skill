@@ -1,0 +1,34 @@
+{
+  "name": "b2b-ui-designer",
+  "displayName": "B2B UI Designer",
+  "version": "0.1.0",
+  "description": "Designs B2B websites and product UI from real-site research, without AI slop, and checks every page for accessibility, modern web practice and conversion.",
+  "author": {
+    "name": "Puvan Kumar V",
+    "url": "https://github.com/puvankumarv"
+  },
+  "repository": "https://github.com/puvankumarv/ui-design-skill",
+  "license": "MIT",
+  "keywords": [
+    "b2b",
+    "saas",
+    "ui-design",
+    "web-design",
+    "design-tokens",
+    "accessibility",
+    "landing-page",
+    "pricing-page",
+    "dashboard"
+  ],
+  "skills": [
+    "./b2b-ui-designer"
+  ],
+  "mcpServers": {
+    "b2b-ui-designer": {
+      "command": "python3",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/b2b-ui-designer/scripts/mcp_server.py"
+      ]
+    }
+  }
+}
