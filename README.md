@@ -47,7 +47,7 @@ Every rule carries a source tag (`b2b-ui-designer/references/sources.md`). The r
 | `b2b-ui-designer/scripts/blueprint.py` | Section order per page type and sales motion |
 | `b2b-ui-designer/scripts/contrast.py` | WCAG contrast ratios |
 | `b2b-ui-designer/scripts/mcp_server.py` | MCP server: the tools above, references as resources, `design_page` and `audit_page` prompts |
-| `b2b-ui-designer/examples/` | A homepage built by the skill that passes the checker with no errors or warnings |
+| `b2b-ui-designer/examples/` | Pages built by the skill that pass the checker with no errors or warnings: a SaaS homepage and pricing page (modern-saas) and an API dashboard (developer, dark with a light theme) |
 | `b2b-ui-research/` | Research notes: archive survey, live-site measurements, design-system rules |
 | `tests/` | Unit tests run by CI |
 

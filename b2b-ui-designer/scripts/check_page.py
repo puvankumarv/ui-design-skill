@@ -404,7 +404,8 @@ def check(html, base_dir=None):
             if r.theme and r.theme != tname:
                 continue
             fg, bg = color_of(resolve(r.decls["color"], vars_)), color_of(resolve(bgv, vars_))
-            if not fg or not bg:
+            # A fully transparent background shows whatever is behind it, which one rule can't tell us.
+            if not fg or not bg or bg[3] == 0:
                 continue
             checked_pairs += 1
             ratio = c.ratio(fg, bg)
@@ -540,8 +541,11 @@ def check(html, base_dir=None):
             labels = {re.sub(r"\s+", " ", p.text(True)).strip().lower() for p in primaries}
             if len(labels) > 1:
                 rep.add("warning", "b2b-primary-cta", f"Primary CTA uses {len(labels)} different labels ({', '.join(sorted(labels))}); use one label everywhere.")
-            if hero_node is not None and not any(p is hero_node or hero_node in list(p.ancestors()) for p in primaries):
-                rep.add("warning", "b2b-primary-cta", "The hero has no primary CTA.")
+            # Pricing pages put the conversion in the plan cards right below a short hero (pages/pricing.md).
+            first_ask = next((n for sid, n in sections if sid == "plans"), hero_node) if page_type == "pricing" else hero_node
+            if first_ask is not None and not any(p is first_ask or first_ask in list(p.ancestors()) for p in primaries):
+                place = "The hero has" if first_ask is hero_node else "The plan cards have"
+                rep.add("warning", "b2b-primary-cta", f"{place} no primary CTA.")
             content = [s for s in ids if s not in NON_CONTENT]
             if len(content) >= 6 and len(primaries) < 3:
                 rep.add("warning", "b2b-primary-cta", f"Long page ({len(content)} sections) shows the primary CTA {len(primaries)} time(s); repeat it every 2-3 sections and in a final cta-band.")
@@ -632,7 +636,8 @@ def check(html, base_dir=None):
     elif buzz:
         rep.add("warning", "slop-buzzwords", f"Buzzword(s): {', '.join(buzz)}. Replace with a concrete claim.")
     unsourced = []
-    for n in doc.iter():
+    # App screens show the user's own data (KPIs, tables); only marketing claims need a source.
+    for n in ([] if is_app else doc.iter()):
         if n.tag in SKIP_TEXT:
             continue
         own = "".join(ch for ch in n.children if isinstance(ch, str))

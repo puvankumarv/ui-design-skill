@@ -32,7 +32,7 @@ import check_page as cp  # noqa: E402
 import contrast as ct  # noqa: E402
 import tokens as tk  # noqa: E402
 
-VERSION = "0.1.0"  # kept equal to .claude-plugin/plugin.json by the tests
+VERSION = "0.2.0"  # kept equal to .claude-plugin/plugin.json by the tests
 MODERN = ["2026-07-28"]
 LEGACY = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"]
 META_VERSION = "io.modelcontextprotocol/protocolVersion"

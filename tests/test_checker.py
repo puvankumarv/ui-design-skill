@@ -1,3 +1,4 @@
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -32,7 +33,14 @@ class ExamplePages(unittest.TestCase):
             with self.subTest(ex.name):
                 self.assertEqual(res["errors"], [])
                 self.assertEqual(res["warnings"], [])
-                self.assertIn("hero", res["sections"])
+                self.assertIn("page-header" if 'data-page="app-' in html else "hero", res["sections"])
+
+    def test_examples_cover_page_types_and_styles(self):
+        pages = {p.name: p.read_text() for p in (SKILL / "examples").glob("*.html")}
+        kinds = {re.search(r'data-page="([\w-]+)"', t).group(1) for t in pages.values()}
+        styles = {re.search(r"tokens:start ([\w-]+)", t).group(1) for t in pages.values()}
+        self.assertTrue({"homepage", "pricing", "app-dashboard"} <= kinds, kinds)
+        self.assertTrue({"modern-saas", "developer"} <= styles, styles)
 
 
 class SloppyFixture(unittest.TestCase):
@@ -69,6 +77,10 @@ class Rules(unittest.TestCase):
     def test_contrast_pass_and_fail(self):
         self.assertNotIn("a11y-contrast", rules(cp.check(page(css=".x{color:#595959;background-color:#fff}")), "errors"))
         self.assertIn("a11y-contrast", rules(cp.check(page(css=".x{color:#777;background-color:#fff}")), "errors"))
+
+    def test_transparent_background_is_not_measured(self):
+        css = ":root{--bg:#0a0a0b;--text:#ededef} .ghost{color:var(--text);background:transparent}"
+        self.assertNotIn("a11y-contrast", rules(cp.check(page(css=css)), "errors"))
 
     def test_large_text_uses_3_to_1(self):
         css = ".x{color:#888;background-color:#fff;font-size:32px}"  # 3.54:1
@@ -118,6 +130,11 @@ class Rules(unittest.TestCase):
         self.assertNotIn("slop-unsourced-stat", rules(cp.check(page(body=body))))
         self.assertIn("slop-unsourced-stat", rules(cp.check(page(body="<h1>T</h1><p>40% faster close</p>"))))
 
+    def test_app_data_is_not_a_marketing_stat(self):
+        body = "<h1>Overview</h1><p>Error rate 0.42%</p><p>Requests +12.4%</p>"
+        self.assertNotIn("slop-unsourced-stat", rules(cp.check(page(body=body, attrs=' data-page="app-dashboard"'))))
+        self.assertIn("slop-unsourced-stat", rules(cp.check(page(body=body))))
+
     def test_save_percentage_is_not_a_stat(self):
         self.assertNotIn("slop-unsourced-stat", rules(cp.check(page(body="<h1>T</h1><p>Save 20% yearly</p>"))))
 
@@ -133,6 +150,15 @@ class Rules(unittest.TestCase):
                 '<section data-section="features"><a data-cta="primary" href="/a">Go</a></section>'
                 '<section data-section="proof"><p>[Logo]</p></section>')
         self.assertIn("b2b-proof-before-ask", rules(cp.check(page(body=body))))
+
+    def test_pricing_cta_lives_in_plans(self):
+        body = ('<h1>Pricing</h1><section data-section="hero"><p>Per user / month.</p></section>'
+                '<section data-section="plans"><a data-cta="primary" href="/s">Get started</a><p>Enterprise</p></section>')
+        res = cp.check(page(body=body, attrs=' data-page="pricing"'))
+        self.assertNotIn("b2b-primary-cta", rules(res))
+        no_plans_cta = body.replace(' data-cta="primary"', "")
+        res = cp.check(page(body=no_plans_cta + '<a data-cta="primary" href="/s">Get started</a>', attrs=' data-page="pricing"'))
+        self.assertTrue(any("plan cards" in w["message"] for w in res["warnings"]), res["warnings"])
 
     def test_pricing_rules(self):
         res = cp.check(page(body="<h1>Pricing</h1><p>$20</p>", attrs=' data-page="pricing"'))

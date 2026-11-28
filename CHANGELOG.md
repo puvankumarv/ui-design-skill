@@ -1,6 +1,13 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## 0.2.0 (2026-11-28)
+
+- New example pages: a SaaS pricing page (billing toggle, plan cards, comparison table) and an API dashboard in the developer style (dark by default, light theme, KPI cards, charts, data table with density toggle). Examples now cover the homepage, pricing and app-dashboard blueprints in two style directions.
+- Checker: transparent backgrounds are no longer measured for contrast (they showed false failures on dark themes).
+- Checker: on pricing pages the primary CTA is expected in the plan cards rather than the hero, as the pricing blueprint specifies.
+- Checker: app screens are exempt from the unsourced-stat rule, since their figures are the user's own data.
+
+## 0.1.0 (2026-11-24)
 
 First version.
 

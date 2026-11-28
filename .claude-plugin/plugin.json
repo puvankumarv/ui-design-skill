@@ -1,7 +1,7 @@
 {
   "name": "b2b-ui-designer",
   "displayName": "B2B UI Designer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Designs B2B websites and product UI from real-site research, without AI slop, and checks every page for accessibility, modern web practice and conversion.",
   "author": {
     "name": "Puvan Kumar V",
